@@ -1,0 +1,94 @@
+﻿@using Enry_searchTest.Models
+@model DatasetModel
+
+@{
+    ViewBag.Title = "Search Data";
+}
+
+<h2>Search Data</h2>
+
+<div class="form-horizontal">
+    <div class="panel-group">
+        <div class="box box-default">
+
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-default" value="Insert Data" onclick="window.location.href='@Url.Action("InsertData", "Search")'" />
+                    </div>
+                </div>
+
+                @if (@TempData["DataStatus"] != null)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @TempData["DataStatus"]
+                        </div>
+                    </div>
+                }
+
+                @using (Html.BeginForm("SearchData", "Search", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input name="keyword" type="text" id="keyword" placeholder="Keywords" class="form-control" value="@Model.keyword" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input type="submit" class="btn btn-default" value="Search Data" />
+                        </div>
+                    </div>
+                }
+
+                <table class="table table-bordered" id="tbl">
+                    <thead>
+                        <tr style="background-color:#fff;">
+                            <th>
+                                String ID
+                            </th>
+                            <th>
+                                String Content
+                            </th>
+                            <th>
+                                Match Time(s)
+                            </th>
+                    </thead>
+
+                    @if (Model.dataset == null || Model.dataset.Count == 0)
+                    {
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <center>No Data</center>
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tbody>
+                            @foreach (var item in Model.dataset)
+                            {
+                                <tr>
+                                    <td width="20%">
+                                        @item.stringId
+                                    </td>
+                                    <td>
+                                        @item.stringContent
+                                    </td>
+                                    <td width="10%">
+                                        @item.matchCount
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
